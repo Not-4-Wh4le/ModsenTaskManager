@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Application/Application.csproj" Id="e7f30157-847e-4502-8982-e779547e9783" />
   <Project Path="Domain/Domain.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="9e65df3e-6820-4f7b-b2d2-ff0827aa43ea" />
   <Project Path="ResultPattern/ResultPattern.csproj" Id="1e2eeca0-abb0-4713-bf26-8e9c35348920" />
 </Solution>
