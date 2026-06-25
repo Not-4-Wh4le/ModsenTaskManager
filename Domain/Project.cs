@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Enums;
+using Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,18 +45,16 @@ namespace Domain
             Name = name.Trim();
         }
 
-        public void CompleteProject(Guid userId)
+        public void CompleteProject()
         {
-            if (userId == Guid.Empty)
-                throw new ArgumentNullException("User Id is required");
-
             if (ProjectStatus == ProjectStatus.Completed)
                 throw new InvalidOperationException("Project is already completed");
 
             ProjectStatus = ProjectStatus.Completed;
         }
 
+        public void Delete()
+            => AddDomainEvent(new ProjectDeletedEvent(Id, Name, OwnerId, DateTimeOffset.UtcNow));
         
-
     }
 }
