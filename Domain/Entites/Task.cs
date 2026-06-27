@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 
-namespace Domain
+namespace Domain.Entites
 {
     public class Task : AggregateRoot, IEntity
     {
-        private readonly List<string> tags = new();
+        private readonly List<string> tags = [];
         public Guid Id { get; init; }
         public Guid ProjectId { get; init; }
         public string Title { get; private set; } = string.Empty;
@@ -32,10 +32,14 @@ namespace Domain
             IEnumerable<string>? tags)
         {
             if (id == Guid.Empty)
+            {
                 throw new ArgumentNullException("Id is required");
+            }
 
             if (projectId == Guid.Empty)
+            {
                 throw new ArgumentNullException("Project Id is required");
+            }
 
             Id = id;
             ProjectId = projectId;
@@ -43,11 +47,15 @@ namespace Domain
             ChangeTitle(title);
             ChangeDescription(description);
             ChangeDueDate(dueDate);
-            ChangePriotityLevel(priorityLevel); 
+            ChangePriorityLevel(priorityLevel); 
 
             if(tags != null)
+            {
                 foreach (var tag in tags)
+                {
                     AddTag(tag);
+                }
+            }
 
             AddDomainEvent(new TaskCreatedEvent(Id, ProjectId, Title, CreatedAt));
         }
@@ -55,11 +63,16 @@ namespace Domain
         public void AddTag(string tag)
         {
             if (string.IsNullOrEmpty(tag))
+            {
                 throw new ArgumentNullException("Tag cannot be empty");
-
+            }
+                
             string normalizedTag = tag.Trim().ToLowerInvariant();
-            if(!tags.Contains(normalizedTag))
+
+            if (!tags.Contains(normalizedTag))
+            {
                 tags.Add(normalizedTag);
+            }
 
         }
 
@@ -67,16 +80,20 @@ namespace Domain
             => tags.Remove(tag.Trim().ToLowerInvariant());
         
 
-        public void ChangePriotityLevel(TaskPriorityLevel priorityLevel)
+        public void ChangePriorityLevel(TaskPriorityLevel priorityLevel)
             => PriorityLevel = priorityLevel;
 
         public void ChangeStatus(Enums.TaskStatus newStatus, Guid userId)
         {
             if (userId == Guid.Empty)
+            {
                 throw new ArgumentNullException("User Id is required");
-
+            }
+              
             if (TaskStatus == newStatus)
+            {
                 return;
+            }
 
             var oldStatus = TaskStatus;
             TaskStatus = newStatus;
@@ -88,28 +105,42 @@ namespace Domain
         public void ChangeTitle(string title)
         {
             if (string.IsNullOrEmpty(title))
+            {
                 throw new ArgumentNullException("Title is required");
+            }  
 
             if (title.Length < 2)
-                throw new ArgumentException("Title length cannot be shorter then 2 characters");
+            {
+                throw new ArgumentException("Title length cannot be shorter than 2 characters");
+            }             
 
             if (title.Length > 100)
-                throw new ArgumentException("Title length cannot be longer then 100 characters");
-
+            {
+                throw new ArgumentException("Title length cannot be longer than 100 characters");
+            }
+                
             Title = title.Trim();
         }
 
         public void ChangeDescription(string description)
         {
             if (string.IsNullOrEmpty(description))
+            {
                 throw new ArgumentNullException("Description is required");
+            }
+               
 
             if (description.Length < 2)
+            {
                 throw new ArgumentException("Description length cannot be shorter than 2 characters");
+            }
+                
 
             if (description.Length > 200)
+            {
                 throw new ArgumentException("Description length cannot be longer than 200 characters");
-
+            }
+                
             Description = description.Trim();
         }
 
@@ -119,6 +150,19 @@ namespace Domain
                 throw new InvalidOperationException("Due Date cannot be in the past");
 
             DueDate = dueDate;
+        }
+
+        public void UpdateTags(IEnumerable<string>? newTags)
+        {
+            tags.Clear();
+
+            if (newTags != null)
+            {
+                foreach (var tag in newTags)
+                {
+                    AddTag(tag);
+                }
+            }
         }
 
         public void Delete()
