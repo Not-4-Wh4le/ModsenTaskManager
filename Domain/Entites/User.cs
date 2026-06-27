@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace Domain.Entites
 {
     public class User : IEntity
     {
@@ -15,13 +15,19 @@ namespace Domain
         public User(Guid id, string email, string passwordHash)
         {
             if(id == Guid.Empty)
+            {
                 throw new ArgumentNullException("Id is required");
+            }
 
-            if(string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(email))
+            {
                 throw new ArgumentNullException("Email is required");
+            }
 
             if (string.IsNullOrEmpty(passwordHash))
+            {
                 throw new ArgumentNullException("Password hash is required");
+            }
 
             Id = id;
             Email = email.Trim().ToLowerInvariant();
