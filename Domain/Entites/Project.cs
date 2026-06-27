@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace Domain.Entites
 {
     public class Project : AggregateRoot, IEntity 
     {
@@ -19,10 +19,14 @@ namespace Domain
         public Project(Guid id, string name, Guid ownerId)
         {
             if (id == Guid.Empty)
+            {
                 throw new ArgumentException("Id cannot be empty");
+            }
 
             if (ownerId == Guid.Empty)
+            {
                 throw new ArgumentException("OwnerId cannot be empty");
+            }
 
             Id = id;
             OwnerId = ownerId;
@@ -34,13 +38,19 @@ namespace Domain
         public void ChangeName(string name)
         {
             if (string.IsNullOrEmpty(name))
+            {
                 throw new ArgumentNullException("Name cannot be empty");
+            }
 
             if (name.Length < 2)
+            {
                 throw new ArgumentException("Name length cannot be shorter than 2 charactes");
+            }
 
             if (name.Length > 100)
+            {
                 throw new ArgumentException("Name length cannot be longer than 100 characters");
+            }
 
             Name = name.Trim();
         }
@@ -48,7 +58,9 @@ namespace Domain
         public void CompleteProject()
         {
             if (ProjectStatus == ProjectStatus.Completed)
+            {
                 throw new InvalidOperationException("Project is already completed");
+            }
 
             ProjectStatus = ProjectStatus.Completed;
         }
