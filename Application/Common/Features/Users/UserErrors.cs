@@ -11,5 +11,6 @@ namespace Application.Common.Features.Users
         public static readonly Error EmailNotUnique = new("User.EmailNotUnique", "Email is already in use");
         public static readonly Error FailedLogin = new("User.FailedLogin", "Invalid email or password");
         public static readonly Error Forbidden = new("User.Forbidden", "You do not have access to this resource");
+        public static readonly Error NotFound = new("User.NotFound", "User not found");
     }
 }
