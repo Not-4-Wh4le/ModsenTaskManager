@@ -1,7 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
-using Domain;
+using Domain.Entites;
 using MediatR;
 using ResultPattern;
 using System;
