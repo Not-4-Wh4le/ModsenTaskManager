@@ -7,7 +7,6 @@ namespace Application.Common.Features.Projects.Queries.GetProjects
 {
     public class GetProjectsQueryValidator : AbstractValidator<GetProjectsQuery>
     {
-        private static readonly string[] AllowedSortFields = ["date", "name"];
         public GetProjectsQueryValidator()
         {
             RuleFor(q => q.Page)
@@ -21,9 +20,9 @@ namespace Application.Common.Features.Projects.Queries.GetProjects
                 .WithMessage("Page size cannot exceed 50 items per page");
 
             RuleFor(q => q.SortBy)
-                .Must(s => AllowedSortFields.Contains(s!.ToLower().Trim()))
+                .Must(s => ProjectSortFields.All.Contains(s!.ToLower().Trim()))
                 .When(q => !string.IsNullOrEmpty(q.SortBy))
-                .WithMessage($"You can only sort by {string.Join(", ", AllowedSortFields)}");
+                .WithMessage($"You can only sort by {string.Join(", ", ProjectSortFields.All)}");
         }
     }
 }
