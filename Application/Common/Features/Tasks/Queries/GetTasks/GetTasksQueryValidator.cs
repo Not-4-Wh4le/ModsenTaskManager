@@ -7,7 +7,6 @@ namespace Application.Common.Features.Tasks.Queries.GetTasks
 {
     public class GetTasksQueryValidator : AbstractValidator<GetTasksQuery>
     {
-        private static readonly string[] AllowedSortFields = ["dueDate", "status", "createdAt"];
         public GetTasksQueryValidator()
         {
             RuleFor(q => q.Page)
@@ -21,9 +20,9 @@ namespace Application.Common.Features.Tasks.Queries.GetTasks
                 .WithMessage("Page size cannot exceed 50 items per page");
 
             RuleFor(q => q.SortBy)
-                .Must(s => AllowedSortFields.Contains(s!.Trim().ToLower(), StringComparer.OrdinalIgnoreCase))
+                .Must(s => TaskSortFields.All.Contains(s!.Trim().ToLower(), StringComparer.OrdinalIgnoreCase))
                 .When(q => !string.IsNullOrEmpty(q.SortBy))
-                .WithMessage($"You can only sort by {string.Join(", ", AllowedSortFields)}");
+                .WithMessage($"You can only sort by {string.Join(", ", TaskSortFields.All)}");
 
             RuleFor(q => q.FilteringStatus)
                 .IsInEnum()
