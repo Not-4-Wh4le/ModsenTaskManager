@@ -12,6 +12,6 @@ namespace Infrastructure.JwtService
         public string Audience { get; init; } = string.Empty;
         public int TokenLifetimeInMinutes { get; init; }
         public SymmetricSecurityKey GetSymmetricSecurityKey()
-            => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+            => new(Encoding.UTF8.GetBytes(SecretKey));
     }
 }

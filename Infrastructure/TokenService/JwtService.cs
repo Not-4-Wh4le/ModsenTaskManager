@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
-using Domain;
+using Domain.Entites;
+using Infrastructure.JwtService;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infrastructure.JwtService
+namespace Infrastructure.TokenService
 {
     public class JwtService(IOptions<JwtOptions> options) : ITokenService
     {
