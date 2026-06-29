@@ -7,6 +7,6 @@ namespace Application.Common.Features.Tasks
 {
     public static class TaskErrors
     {
-        public static readonly Error NotFound = new("Taks.NotFound", "Task not found");
+        public static readonly Error NotFound = new("Taks.NotFound", "Task not found", ErrorType.NotFound);
     }
 }
