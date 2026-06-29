@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,13 @@ namespace Infrastructure.Persistence
     {
         private readonly IMongoDatabase database;
 
-        public MongoDbContext(IConfiguration configuration)
+        public MongoDbContext(IOptions<MongoOptions> options)
         {
-            var connectionString = configuration.GetConnectionString("MongoDb");
-
-            var url = new MongoUrl(connectionString);
+            var url = new MongoUrl(options.Value.ConnectionString);
 
             var client = new MongoClient(url);
 
-            database = client.GetDatabase(url.DatabaseName);
+            database = client.GetDatabase(options.Value.DatabaseName);
         }
 
         public IMongoCollection<T> GetCollection<T>(string collectionName)
