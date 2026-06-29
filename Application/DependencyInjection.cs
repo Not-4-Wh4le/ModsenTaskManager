@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using Application.Common;
+using Application.Common.Interfaces;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace Application
         {
             var assembly = Assembly.GetExecutingAssembly();
 
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispathcer>();
             services.AddMediatR(conf =>
             {
                 conf.RegisterServicesFromAssemblies(assembly);

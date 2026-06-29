@@ -8,7 +8,7 @@ namespace Domain.Common
     public abstract class AggregateRoot
     {
         private readonly List<IDomainEvent> events = new();
-        
+        public IReadOnlyCollection<IDomainEvent> Events => events.AsReadOnly();
         public void AddDomainEvent(IDomainEvent domainEvent)
             => events.Add(domainEvent);
 
