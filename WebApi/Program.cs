@@ -2,6 +2,7 @@ using Application;
 using Application.Common.Interfaces;
 using Infrastructure;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 using WebApi.Extensions;
 using WebApi.Infrastructure;
 using WebApi.OpenApi;
@@ -33,7 +34,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
-        opt.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 var app = builder.Build();
