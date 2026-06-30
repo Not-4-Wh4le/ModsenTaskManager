@@ -59,6 +59,7 @@ namespace WebApi.Controllers
                 : this.HandleFailure(result.Error);
         }
 
+        [Authorize]
         [HttpPut("rename/{id:guid}")]
         public async Task<ActionResult> Rename(Guid id, [FromBody] RenameProjectRequest request)
         {
