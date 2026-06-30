@@ -11,14 +11,18 @@ namespace Domain.Entites
 {
     public class Task : AggregateRoot, IEntity
     {
-        private readonly List<string> tags = [];
+        private readonly List<string> _tags = [];
         public Guid Id { get; init; }
         public Guid ProjectId { get; init; }
         public string Title { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
         public DateTimeOffset DueDate { get; private set; }
         public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
-        public IReadOnlyList<string> Tags => tags.AsReadOnly();
+        public IReadOnlyList<string> Tags
+        {
+            get => (_tags ?? []).AsReadOnly();
+            private init => _tags = [.. value];
+        }
         public Enums.TaskStatus TaskStatus { get; private set; } = Enums.TaskStatus.ToDo;
         public TaskPriorityLevel PriorityLevel { get; private set; }
 
@@ -69,15 +73,15 @@ namespace Domain.Entites
                 
             string normalizedTag = tag.Trim().ToLowerInvariant();
 
-            if (!tags.Contains(normalizedTag))
+            if (!_tags.Contains(normalizedTag))
             {
-                tags.Add(normalizedTag);
+                _tags.Add(normalizedTag);
             }
 
         }
 
         public void RemoveTag(string tag)
-            => tags.Remove(tag.Trim().ToLowerInvariant());
+            => _tags.Remove(tag.Trim().ToLowerInvariant());
         
 
         public void ChangePriorityLevel(TaskPriorityLevel priorityLevel)
@@ -154,7 +158,7 @@ namespace Domain.Entites
 
         public void UpdateTags(IEnumerable<string>? newTags)
         {
-            tags.Clear();
+            _tags.Clear();
 
             if (newTags != null)
             {
