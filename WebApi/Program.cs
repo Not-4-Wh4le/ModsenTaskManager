@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Infrastructure;
 using Scalar.AspNetCore;
 using WebApi.Extensions;
+using WebApi.Infrastructure;
 using WebApi.OpenApi;
 using WebApi.Services;
 
@@ -25,6 +26,9 @@ builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
@@ -33,12 +37,13 @@ builder.Services.AddControllers()
     });
 
 var app = builder.Build();
-
+app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
 
 app.UseHttpsRedirection();
 
